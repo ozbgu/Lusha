@@ -10,7 +10,7 @@ def replace_names(df,original,sub):
         df.columns=df.columns.str.replace(original,sub)
 
 
-#create the tables
+# create the tables
 purchases=create_df('purchases')
 users_utm=create_df('users_utm')
 users=create_df('users')
@@ -21,6 +21,7 @@ replace_names(users_utm,' userId', 'userId')
 replace_names(users_utm,' utmSource', 'utmSource')
 
 
+# more arrangement to the data
 purchases['Billing_amount'] = pd.to_numeric(purchases[' Billing_amount ($)'])
 purchases['purchaseDate'] = pd.to_datetime(purchases['purchaseDate']).dt.date
 users_utm['utmDate'] = pd.to_datetime(users_utm['utmDate']).dt.date
