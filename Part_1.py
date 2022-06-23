@@ -20,12 +20,12 @@ if __name__ == '__main__':
 
 
 
-#extract csv and parquet files
+# extract csv and parquet files
 zones=spark.read.csv('/Users/oz.barlev/Downloads/lusha-de-interview/data_part1/yellow_taxi_jan_25_2018/taxi_zones.csv',inferSchema=True,header=True)
 rides=spark.read.parquet('/Users/oz.barlev/Downloads/lusha-de-interview/data_part1/yellow_taxi_jan_25_2018/*.parquet')
 
 
-#q1
+# q1
 print (' ############################## Question 1 ############################## ')
 # here the sum is calculated per passenger, the calculation is for both pickups/dropoffs
 # showing the 3 highest Borough and the number of passengers
@@ -36,7 +36,7 @@ join_tables.groupBy('Borough') \
     .sort(desc("num_of_passengers")).show(3) 
 
 
-#q2
+# q2
 print (' ############################## Question 2 ############################## ')
 # adding a field named hour, holding the number of pickups per each hour
 rides=rides.withColumn("hour", lit(hour(F.to_timestamp("tpep_pickup_datetime","dd/MM/yyyy HH:mm:ss"))))
@@ -46,7 +46,7 @@ spark.sql("SELECT hour,count(*) as num_of_rides_per_hour FROM rides group by 1 o
 
 
 
-#q3
+# q3
 print (' ############################## Question 3 ############################## ')
 #assuming that long trip is longer then 3km
 spark.sql("SELECT hour as long_trip_peak_hours,count(passenger_count)  as num_of_rides FROM rides where trip_distance>3 group by 1 order by 2 desc").show(3)
@@ -59,7 +59,7 @@ spark.sql("SELECT hour,sum(case when trip_distance>3 then 1 else 0 end) as num_o
 
 
 
-#q4
+# q4
 print (' ############################## Question 4 ############################## ')
 # # assuming that long trip is longer then 3km and short is less then 
 spark.sql("with short_rides as (                                        \
