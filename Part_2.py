@@ -1,6 +1,7 @@
 import pandas as pd
 import pandasql as ps
 
+
 def create_df(file_name:str):
         df= pd.read_csv('/Users/oz.barlev/Downloads/lusha-de-interview/data/'+file_name+'.csv')
         return df
@@ -8,17 +9,22 @@ def create_df(file_name:str):
 def replace_names(df,original,sub):
         df.columns=df.columns.str.replace(original,sub)
 
-purchases=create_df('purchases')
-purchases['Billing_amount'] = pd.to_numeric(purchases[' Billing_amount ($)'])
-purchases['purchaseDate'] = pd.to_datetime(purchases['purchaseDate']).dt.date
-users_utm=create_df('users_utm')
-users_utm['utmDate'] = pd.to_datetime(users_utm['utmDate']).dt.date
-users=create_df('users')
-users['registrationDate'] = pd.to_datetime(users['registrationDate']).dt.date
 
+#create the tables
+purchases=create_df('purchases')
+users_utm=create_df('users_utm')
+users=create_df('users')
+
+# removing empty spaces in headers
 replace_names(purchases,' userId', 'userId')
 replace_names(users_utm,' userId', 'userId')
 replace_names(users_utm,' utmSource', 'utmSource')
+
+
+purchases['Billing_amount'] = pd.to_numeric(purchases[' Billing_amount ($)'])
+purchases['purchaseDate'] = pd.to_datetime(purchases['purchaseDate']).dt.date
+users_utm['utmDate'] = pd.to_datetime(users_utm['utmDate']).dt.date
+users['registrationDate'] = pd.to_datetime(users['registrationDate']).dt.date
 
 
 q1 = """
